@@ -200,7 +200,6 @@ Lista inverteLista(Lista l)
 }
 
  
-//Desafio 2.1 - Implementa a função somaLista, que recebe uma lista ligada e retorna a soma da mesma
 void SomaLista(Lista l) {
     if (l->inicio == NULL)  {
         printf("Lista vazia. Impossível fazer soma\n");
@@ -217,11 +216,12 @@ void SomaLista(Lista l) {
     printf("soma: %d\n", soma);
 }
 
-//Desafio 2.2 -Faça o algoritmo de bubbleSort usando listas ligadas. Sua função deve receber uma lista ligada e então ordená-la usando bubbleSorte
+//                      =====================================Desafio 2.2==========================================
+//      Faça o algoritmo de bubbleSort usando listas ligadas. Sua função deve receber uma lista ligada e então ordená-la usando bubbleSorte
 Lista llBubbleSort(Lista l) {
 
     if (l->inicio == NULL || l->inicio == l->fim)
-        return;
+        return 0;
     
     for (int i = 0; i < l->tamanho - 1; i++) {
         Cursor curr = l->inicio;
@@ -237,39 +237,6 @@ Lista llBubbleSort(Lista l) {
     return llBubbleSort;
 }
 
-//Desafio 2.3 - Crie uma função chamada insereOrdenado, que recebe uma lista ligada ordenada e um número inteiro,
-//garantindo que o número será inserido na posição correta, mantendo a lista ordenada de maneira crescente.
-    void insereOrdenado(Lista l, int info)
-{
-    Elemento novo = novoNo(info);
-    if (!novo)
-        return;
-
-        if (l->inicio == NULL || info < l->inicio->info){
-            novo->prox = l->inicio;
-            l->inicio = novo;
-
-            if (l->tamanho == 0)
-            l->fim = novo;
-
-            l->tamanho++;
-            return;
-        }
-            Cursor curr = l->inicio;
-    while (curr->prox != NULL && curr->prox->info < info) {
-        curr = curr->prox;
-    }
-
-    novo->prox = curr->prox;
-    curr->prox = novo;
-
-    if (novo->prox == NULL) {
-        l->fim = novo;
-    }
-
-    l->tamanho++;
-        
-}
 
 int main()
 {
@@ -283,8 +250,7 @@ int main()
     inserirNoFim(myList, 25);
 
     imprimirLista(myList);
-    
-    Lista invertida = inverteLista(myList);
-    imprimirLista(invertida);
+  llBubbleSort(myList);
+  imprimirLista(myList);
 
 }

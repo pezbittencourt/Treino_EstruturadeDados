@@ -101,8 +101,6 @@ void removePrimeiro(Lista l)
     l->tamanho--;
 }
 
-
-//Desafio 1.1 - Implementa a função print_list, que recebe o nó de início da lista e imprime todos os seus valores
 void imprimirLista(Lista l)
 {
     Cursor curr = l->inicio;
@@ -115,7 +113,7 @@ void imprimirLista(Lista l)
     printf("NULL\n");
 }
 
-//Desafio 1.2 - Tente criar uma função para remover o último elemento da lista. Faça testes na main e verifique se sua função funciona corretamente.
+
 void removeUltimo(Lista l)
 {
     if (l->fim == NULL)
@@ -141,7 +139,8 @@ void removeUltimo(Lista l)
 }
 
 
-//Desafio 1.3 - Crie uma função que remove um nó da lista através de seu valor: remove_value(struct no *lista, int value)
+//              =================================Desafio 1.3===============================
+//   Crie uma função que remove um nó da lista através de seu valor: remove_value(struct no *lista, int value)
 void removePorNumero(Lista l, int valor)
 {
     if (l->inicio == NULL)
@@ -185,23 +184,6 @@ void removePorNumero(Lista l, int valor)
     }
 }
 
-//Desafio 1.4 - Implemente a função reverse_list(struct no * lista).
-//Ela deve retornar o ponteiro para o nó de início da lista que, se impressa por print_list, mostrará a lista original reversa.
-Lista inverteLista(Lista l)
-{
-    // cria um novo gerente para a lista invertida
-    Lista listaInvertida = criarLista();
-    Cursor curr = l->inicio;
-
-    while (curr != NULL)
-    {
-        inserirNoInicio(listaInvertida, curr->info);
-        curr = curr->prox;
-    }
-
-    return listaInvertida; // retorna o gerente da lista invertida
-}
-
  
 
 int main()
@@ -215,4 +197,7 @@ int main()
     inserirNoFim(myList, 4);
     inserirNoFim(myList, 25);
 
+    imprimirLista(myList);
+    removePorNumero(myList, 30);
+    imprimirLista(myList);
 }
