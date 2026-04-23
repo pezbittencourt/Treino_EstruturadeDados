@@ -102,7 +102,6 @@ void removePrimeiro(Lista l)
 }
 
 
-//Desafio 1.1 - Implementa a função print_list, que recebe o nó de início da lista e imprime todos os seus valores
 void imprimirLista(Lista l)
 {
     Cursor curr = l->inicio;
@@ -115,7 +114,7 @@ void imprimirLista(Lista l)
     printf("NULL\n");
 }
 
-//Desafio 1.2 - Tente criar uma função para remover o último elemento da lista. Faça testes na main e verifique se sua função funciona corretamente.
+
 void removeUltimo(Lista l)
 {
     if (l->fim == NULL)
@@ -141,7 +140,6 @@ void removeUltimo(Lista l)
 }
 
 
-//Desafio 1.3 - Crie uma função que remove um nó da lista através de seu valor: remove_value(struct no *lista, int value)
 void removePorNumero(Lista l, int valor)
 {
     if (l->inicio == NULL)
@@ -185,8 +183,7 @@ void removePorNumero(Lista l, int valor)
     }
 }
 
-//Desafio 1.4 - Implemente a função reverse_list(struct no * lista).
-//Ela deve retornar o ponteiro para o nó de início da lista que, se impressa por print_list, mostrará a lista original reversa.
+
 Lista inverteLista(Lista l)
 {
     // cria um novo gerente para a lista invertida
@@ -203,6 +200,76 @@ Lista inverteLista(Lista l)
 }
 
  
+//Desafio 2.1 - Implementa a função somaLista, que recebe uma lista ligada e retorna a soma da mesma
+void SomaLista(Lista l) {
+    if (l->inicio == NULL)  {
+        printf("Lista vazia. Impossível fazer soma\n");
+        return;
+    }
+
+     Cursor curr = l->inicio;
+    int soma = 0;
+
+        while (curr !=NULL){
+        soma += curr->info;
+        curr = curr->prox;
+    }
+    printf("soma: %d\n", soma);
+}
+
+//Desafio 2.2 -Faça o algoritmo de bubbleSort usando listas ligadas. Sua função deve receber uma lista ligada e então ordená-la usando bubbleSorte
+Lista llBubbleSort(Lista l) {
+
+    if (l->inicio == NULL || l->inicio == l->fim)
+        return;
+    
+    for (int i = 0; i < l->tamanho - 1; i++) {
+        Cursor curr = l->inicio;
+        for (int j = 0; j < l->tamanho - 1 - i; j++) {
+            if (curr->info > curr->prox->info) {
+                int aux = curr->info;
+                curr->info = curr->prox->info;
+                curr->prox->info = aux;
+            }
+            curr = curr->prox;
+        }
+    }
+    return llBubbleSort;
+}
+
+//Desafio 2.3 - Crie uma função chamada insereOrdenado, que recebe uma lista ligada ordenada e um número inteiro,
+//garantindo que o número será inserido na posição correta, mantendo a lista ordenada de maneira crescente.
+    void insereOrdenado(Lista l, int info)
+{
+    Elemento novo = novoNo(info);
+    if (!novo)
+        return;
+
+        if (l->inicio == NULL || info < l->inicio->info){
+            novo->prox = l->inicio;
+            l->inicio = novo;
+
+            if (l->tamanho == 0)
+            l->fim = novo;
+
+            l->tamanho++;
+            return;
+        }
+            Cursor curr = l->inicio;
+    while (curr->prox != NULL && curr->prox->info < info) {
+        curr = curr->prox;
+    }
+
+    novo->prox = curr->prox;
+    curr->prox = novo;
+
+    if (novo->prox == NULL) {
+        l->fim = novo;
+    }
+
+    l->tamanho++;
+        
+}
 
 int main()
 {
@@ -214,5 +281,10 @@ int main()
     inserirNoInicio(myList, 12);
     inserirNoFim(myList, 4);
     inserirNoFim(myList, 25);
+
+    imprimirLista(myList);
+    
+    Lista invertida = inverteLista(myList);
+    imprimirLista(invertida);
 
 }
