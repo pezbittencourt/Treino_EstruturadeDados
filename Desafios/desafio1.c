@@ -9,18 +9,31 @@ typedef struct no
 } No;
 
 //Apelidos dados para facilitar a construção do código
-typedef No * Elemento;   //Criação de novos nós 
-typedef No *Cursor;     //Percorrer a lista com curr
-typedef No *Referencia; //Guardar o 'inicio' e 'fim' dentro da struct Lista
-typedef No *ListaLigada;
+typedef No* Elemento;   //Para falar com ou sobre os elementos criados  
+typedef No* Cursor;     //Para percorrer a lista com um curr
+
 
 //Central de controle dos pontos de referência da lista
 typedef struct lista
 {
-    Referencia inicio;
-    Referencia fim;
+    Elemento inicio;
+    Elemento fim;
     int tamanho;
-} Controle;
+}    Controle;
+
+typedef Controle* Lista; // A lista que você passa para as funções
+
+Lista criarLista()
+{
+    Lista l = (Lista)malloc(sizeof(Controle));
+    if (l)
+    {
+        l->inicio = NULL;
+        l->fim = NULL;
+        l->tamanho = 0;
+    }
+    return l;
+}
 
 //Cria novo elemento
 Elemento novoNo(int info)
@@ -33,7 +46,6 @@ Elemento novoNo(int info)
     return novo;
 }
 
-typedef Controle* Lista; // A lista que você passa para as funções
 
 void inserirNoInicio(Lista l, int info)
 {
@@ -73,29 +85,45 @@ void inserirNoFim(Lista l, int info)
     l->tamanho++;
 }
 
-Lista criarLista()
+
+void removePrimeiro(Lista l)
 {
-    Lista l = (Lista)malloc(sizeof(Controle));
-    if (l)
+    if (l->inicio == NULL)
+        return; // lista vazia
+
+    Elemento antigo = l->inicio;
+    l->inicio = antigo->prox;
+
+    if (l->inicio == NULL)
+        l->fim = NULL;
+
+    free(antigo);
+    l->tamanho--;
+}
+
+//Desafio 2- Tente criar uma função para remover o último elemento da lista. Faça testes na main e verifique se sua função funciona corretamente.
+void removeUltimo(Lista l)
+{
+    if (l->fim == NULL)
+        return;
+    if (l->inicio == l->fim)
     {
+        free(l->inicio);
         l->inicio = NULL;
         l->fim = NULL;
         l->tamanho = 0;
+        return;
     }
-    return l;
-}
 
-//Desafio 1. - Implementa a função print_list, que recebe o nó de início da lista e imprime todos os seus valores
-void imprimirLista(Lista l)
-{
-    Cursor curr = l->inicio;
-    printf("Lista (%d itens): ", l->tamanho);
-    while (curr != NULL)
+    Elemento penultimo = l->inicio;
+    while (penultimo->prox != l->fim)
     {
-        printf("%d -> ", curr->info);
-        curr = curr->prox;
+        penultimo = penultimo->prox;
     }
-    printf("NULL\n");
+    free(l->fim);
+    penultimo->prox = NULL;
+    l->fim = penultimo;
+    l->tamanho--;
 }
 
 
@@ -143,6 +171,18 @@ void removePorNumero(Lista l, int valor)
     }
 }
 
+//Desafio 1. - Implementa a função print_list, que recebe o nó de início da lista e imprime todos os seus valores
+void imprimirLista(Lista l)
+{
+    Cursor curr = l->inicio;
+    printf("Lista (%d itens): ", l->tamanho);
+    while (curr != NULL)
+    {
+        printf("%d -> ", curr->info);
+        curr = curr->prox;
+    }
+    printf("NULL\n");
+}
 
 //Desafio 4. - Implemente a função reverse_list(struct no * lista).
 //Ela deve retornar o ponteiro para o nó de início da lista que, se impressa por print_list, mostrará a lista original reversa.
@@ -159,46 +199,6 @@ Lista inverteLista(Lista l)
     }
 
     return listaInvertida; // retorna o gerente da lista invertida
-}
-
-void removePrimeiro(Lista l)
-{
-    if (l->inicio == NULL)
-        return; // lista vazia
-
-    Elemento antigo = l->inicio;
-    l->inicio = antigo->prox;
-
-    if (l->inicio == NULL)
-        l->fim = NULL;
-
-    free(antigo);
-    l->tamanho--;
-}
-
-//Desafio 2- Tente criar uma função para remover o último elemento da lista. Faça testes na main e verifique se sua função funciona corretamente.
-void removeUltimo(Lista l)
-{
-    if (l->fim == NULL)
-        return;
-    if (l->inicio == l->fim)
-    {
-        free(l->inicio);
-        l->inicio = NULL;
-        l->fim = NULL;
-        l->tamanho = 0;
-        return;
-    }
-
-    Elemento penultimo = l->inicio;
-    while (penultimo->prox != l->fim)
-    {
-        penultimo = penultimo->prox;
-    }
-    free(l->fim);
-    penultimo->prox = NULL;
-    l->fim = penultimo;
-    l->tamanho--;
 }
 
 int main()
