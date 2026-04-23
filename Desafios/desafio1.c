@@ -1,20 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// 1. A estrutura básica (o "tijolo")
+
 typedef struct no
 {
     int info;
     struct no *prox;
 } No;
 
-// 2. Os apelidos didáticos (todos são No*)
-typedef No *Elemento;   // Use para: Criar novos nós (malloc)
-typedef No *Cursor;     // Use para: Percorrer a lista (em loops while/for)
-typedef No *Referencia; // Use para: Guardar o 'inicio' e 'fim' dentro da struct Lista
+//Apelidos dados para facilitar a construção do código
+typedef No * Elemento;   //Criação de novos nós 
+typedef No *Cursor;     //Percorrer a lista com curr
+typedef No *Referencia; //Guardar o 'inicio' e 'fim' dentro da struct Lista
 typedef No *ListaLigada;
 
-// 3. O "Gerente" da lista
+//Central de controle dos pontos de referência da lista
 typedef struct lista
 {
     Referencia inicio;
@@ -22,6 +22,7 @@ typedef struct lista
     int tamanho;
 } Controle;
 
+//Cria novo elemento
 Elemento novoNo(int info)
 {
     Elemento novo = malloc(sizeof(No));
@@ -32,13 +33,13 @@ Elemento novoNo(int info)
     return novo;
 }
 
-typedef Controle *Lista; // A lista que você passa para as funções
+typedef Controle* Lista; // A lista que você passa para as funções
 
 void inserirNoInicio(Lista l, int info)
 {
     Elemento novo = novoNo(info);
     if (!novo)
-        return; // se falhar, mantém a lista como estava
+        return;
 
     novo->prox = l->inicio;
     l->inicio = novo;
@@ -53,7 +54,6 @@ void inserirNoInicio(Lista l, int info)
 void inserirNoFim(Lista l, int info)
 {
     Elemento novo = novoNo(info);
-    // Precisamos encontrar o último elemento da lista. Quando encontramos, adicionamos o novo!
 
     if (l->inicio == NULL)
     {
@@ -72,6 +72,7 @@ void inserirNoFim(Lista l, int info)
     }
     l->tamanho++;
 }
+
 Lista criarLista()
 {
     Lista l = (Lista)malloc(sizeof(Controle));
@@ -84,8 +85,7 @@ Lista criarLista()
     return l;
 }
 
-// Suas funções inserirNoInicio e inserirNoFim estão perfeitas agora!
-
+//Desafio 1. - Implementa a função print_list, que recebe o nó de início da lista e imprime todos os seus valores
 void imprimirLista(Lista l)
 {
     Cursor curr = l->inicio;
@@ -98,8 +98,8 @@ void imprimirLista(Lista l)
     printf("NULL\n");
 }
 
-// Crie uma função que remove um nó da lista através de seu valor: remove_value(Lista l, int valor)
 
+//Desafio 3. - Crie uma função que remove um nó da lista através de seu valor: remove_value(struct no *lista, int value)
 void removePorNumero(Lista l, int valor)
 {
     if (l->inicio == NULL)
@@ -143,10 +143,9 @@ void removePorNumero(Lista l, int valor)
     }
 }
 
-// Implemente a função reverse_list(struct no * lista).
-// Ela deve retornar o ponteiro para o nó de início da lista que,
-// se impressa por print_list, mostrará a lista original reversa.
 
+//Desafio 4. - Implemente a função reverse_list(struct no * lista).
+//Ela deve retornar o ponteiro para o nó de início da lista que, se impressa por print_list, mostrará a lista original reversa.
 Lista inverteLista(Lista l)
 {
     // cria um novo gerente para a lista invertida
@@ -177,6 +176,7 @@ void removePrimeiro(Lista l)
     l->tamanho--;
 }
 
+//Desafio 2- Tente criar uma função para remover o último elemento da lista. Faça testes na main e verifique se sua função funciona corretamente.
 void removeUltimo(Lista l)
 {
     if (l->fim == NULL)
